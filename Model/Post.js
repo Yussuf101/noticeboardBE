@@ -1,27 +1,29 @@
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../database/db");
 
-const PostSchema = new mongoose.Schema(
+const Post = sequelize.define(
     "Post",
     {
         id: {
-            type: "INTEGER",
+            type:  DataTypes.STRING,
             primaryKey: true,
             autoIncrement: true,
         },
         post_type: {
-            type: "INTEGER",
+            type:  DataTypes.STRING,
         },
         post_content: {
-            type: "STRINg",
+            type:  DataTypes.STRING,
         },
         created_at: {
-            type: "DATE",
+            type:  DataTypes.DATE,
         },
         updated_at: {
-            type: "DATE",
+            type:  DataTypes.DATE,
         },
        
     },
     { timestamps: true }
 );
 
-module.exports = mongoose.model("post", PostSchema);
+module.exports = Post;

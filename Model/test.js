@@ -1,9 +1,9 @@
 
-const { DataTypes } = require("mongoose");
+const { DataTypes } = require("sequelize");
 
-const { Mongoose } = require("../db");
+const { connection } = require("../database/db");
 
-const Test = Mongoose.define("test", {
+const Test = connection.define("test", {
     name: { type: DataTypes.STRING, allowNull: false }
 }, {});
 
