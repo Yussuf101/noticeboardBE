@@ -1,43 +1,37 @@
+require('dotenv').config();
+const passport = require("passport");
 const express = require("express");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const userRoute = require("./Routes/user");
-const indexRoute = require("./Routes/index");
-const authRoute = require("./auth/authRoutes");
-
-
-// setting up database
-require("dotenv").config();
-
-const {connection} = require("./database/db");
-
-// Middleware
-
-app.use(express.json());
-app.use(helmet());
-app.use(morgan("common"));
-
-// server config
-const port = process.env.PORT || 5000;
 const cors = require("cors");
 
-const user = require("./model/user");
-const test = require("./model/test");
+const {connection} = require("./database/db");
+const port = process.env.PORT || 5000;
+
+const indexRouter = require("./routes/index");
+const errorRouter = require("./routes/error");
+const userRouter = require("./routes/user");
+const testRouter = require("./Routes/test");
 
 const app = express();
-
-app.use(cors({ origin: "*" }));
 app.use(express.json());
 
+app.use(cors());  // {origin: process.env.origin}
+
+app.use((req, res, next) => {
+    res.header('Access-control-allow-origin', '*');
+    next();
+});
 
 
-app.use("/api/users", userRoute);
-app.use("/api/index", indexRoute);
-app.use("/api/auth", post)
-app.use(authRoute);
+passport.use("register", registerStrategy);
+passport.use("login", loginStrategy);
+passport.use(verifyStrategy, 
+    console.log("verify on index.js"));
 
+app.use("/", indexRouter);
+app.use("/test", testRouter);
+app.use("/user", userRouter);
+app.use("*", errorRouter);
 
-// start server
 app.listen(port, async () => {
     console.log("app is listening");
     connection.authenticate();

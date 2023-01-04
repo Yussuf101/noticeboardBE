@@ -1,20 +1,20 @@
 
-const { DataTypes } = require("sequelize");
+// const { DataTypes } = require("sequelize");
 
-const { connection } = require("../database/db");
+// const { connection } = require("../database/db");
 
-const Test = connection.define("test", {
-    name: { type: DataTypes.STRING, allowNull: false }
-}, {});
+// const Test = connection("test", {
+//     name: { type: DataTypes.STRING, allowNull: false }
+// }, {});
 
-const main = async () => {
-    try {
-        await Test.sync({alter: true});
-    } catch (error) {
-        console.log(error);
-    }
-};
+// const main = async () => {
+//     try {
+//         await Test.sync({alter: true});
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
-main();
+// main();
 
-module.exports = Test;
+// module.exports = Test;
