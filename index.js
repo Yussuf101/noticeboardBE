@@ -6,6 +6,9 @@ const cors = require("cors");
 const {connection} = require("./database/db");
 const port = process.env.PORT || 5000;
 
+const user = require("./Model/user");
+const test = require("./Model/test");
+
 const indexRouter = require("./routes/index");
 const errorRouter = require("./routes/error");
 const userRouter = require("./routes/user");
@@ -37,8 +40,8 @@ app.use("*", errorRouter);
 
 app.listen(port, async () => {
     console.log("app is listening");
-    // connection.authenticate();
-    // await user.sync({alter: true});
-    // await test.sync({ alter: true }); // This creates/updates tables
+    connection.authenticate();
+    await user.sync({alter: true});
+    await test.sync({ alter: true }); // This creates/updates tables
     console.log("HTTP Server is now running!!!");
   });
