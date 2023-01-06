@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/Yussuf101/noticeboardBE/issues"
   },
-  "homepage": "https://github.com/Yussuf101/noticeboardBE.git",
+  "homepage": "https://username.github.io/yussuf101/noticeboardbe.git",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",

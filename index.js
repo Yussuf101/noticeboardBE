@@ -1,8 +1,8 @@
-require('dotenv').config();
 const passport = require("passport");
 const express = require("express");
 const cors = require("cors");
 
+require('dotenv').config();
 const {connection} = require("./database/db");
 const port = process.env.PORT || 5000;
 
