@@ -11,6 +11,9 @@ const errorRouter = require("./routes/error");
 const userRouter = require("./routes/user");
 const testRouter = require("./Routes/test");
 
+const { registerStrategy, loginStrategy, verifyStrategy } = require("./auth/authRoutes");
+
+
 const app = express();
 app.use(express.json());
 
@@ -34,8 +37,8 @@ app.use("*", errorRouter);
 
 app.listen(port, async () => {
     console.log("app is listening");
-    connection.authenticate();
-    await user.sync({alter: true});
-    await test.sync({ alter: true }); // This creates/updates tables
-    console.log("HTTP Server Started");
+    // connection.authenticate();
+    // await user.sync({alter: true});
+    // await test.sync({ alter: true }); // This creates/updates tables
+    console.log("HTTP Server is now running!!!");
   });

@@ -1,56 +1,48 @@
-const { Router } = require("express");
+const express = require("express");
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+const config = {session: false};
 
-const {
-    hashPass,
-    validateToken,
-} = require("../middleware/authentication");
+const router = express.Router();
 
-const {
-    validateNewUser,
-} = require("../middleware/validation");
+const profile = async (req, res, next) => {
+    res.status(200).json({msg: "profile", user: req.user, token: req.query.secret_token});
+};
 
-const {
-    readUsers,
-    readUser,
-    createUser,
-    updateUser,
-    deleteUser,
-} = require("../User/controller");
-const userRouter = Router();
+const register = async (req, res, next) => {
+    req.user.email ? res.status(201).json({msg: "You have successfully registered", email: req.user.email}) : res.status(401).json({msg: "This email is already in use"});
 
-userRouter.get(
-    "/users",
-    validateToken,
-    readUsers
-);
+};
 
+const login = (req, res, next) => {
+    passport.authenticate('login', (err, user, info) => {
+        try {
+        if (err) {
+            return res.status(500).json({msg: "Internal server error", auth: false})
+        } else if (!user) {
+            return res.status(401).json({msg: "User has not been found", auth: false})
+        }
+        const token = jwt.sign({user: {id: user.id, username:user.username, email: user.email}}, process.env.SECRET_KEY);
+        const fn = (error) => { 
+            error? next(error) : res.status(200).json(
+            {
+                msg: "User authenticated", 
+                username:user.username,
+                email: user.email, 
+                secret_token: token, 
+                auth_status: true,
+            }
+        )};
+        req.login(user, config, fn);
+        } catch (error) {
+            return next(error);
+        }
+    })(req, res, next);
+    
+};
 
-userRouter.get(
-    "/user/:id",
-    validateToken,
-    readUser
-);
+router.post("/register", passport.authenticate("register", config), register);
+router.post("/login", login);
+router.get("/profile", passport.authenticate("jwt", config), profile);
 
-userRouter.post(
-    "/user",
-    validateNewUser,
-    hashPass,
-    createUser
-);
-
-
-userRouter.put(
-    "/user/:id",
-    validateToken,
-    hashPass,
-    updateUser
-);
-
-
-userRouter.delete(
-    "/user/:id",
-    validateToken,
-    deleteUser
-);
-
-module.exports = userRouter;
+module.exports = router;
