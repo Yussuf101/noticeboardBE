@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "production") {
 
     module.exports.connection = new Sequelize(`${process.env.DATABASE_URL}?sslmode=require`, {
         url: process.env.DATABASE_URI,  
-        dialect: 'postgres',
+        dialect: 'Mysql',
         dialectOptions: {
             ssl: {
                 rejectUnauthorized: false,
